@@ -1,0 +1,11 @@
+* text=auto
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.hpl text eol=lf
+*.hwf text eol=lf
+*.sql text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.csv text eol=lf
