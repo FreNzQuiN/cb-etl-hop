@@ -1,4 +1,5 @@
 {
+  "virtualPath": "",
   "rdbms": {
     "POSTGRESQL": {
       "sshTunnelPort": "22",

@@ -2,28 +2,28 @@
   "variables" : [
     {
       "name" : "OLTP_HOSTNAME",
-      "value" : "",
-      "description" : "JSON File 'oltp.json' → 12 → line 12"
+      "value" : "localhost",
+      "description" : "Hostname for database connection oltp"
     },
     {
       "name" : "OLTP_PORT",
-      "value" : "",
-      "description" : "JSON File 'oltp.json' → 15 → line 15"
+      "value" : "5432",
+      "description" : "Port for database connection oltp"
     },
     {
       "name" : "OLTP_DATABASE",
-      "value" : "",
-      "description" : "JSON File 'oltp.json' → 7 → line 7"
+      "value" : "tokomaju_oltp",
+      "description" : "Database name for database connection oltp"
     },
     {
       "name" : "OLTP_USERNAME",
-      "value" : "",
-      "description" : "JSON File 'oltp.json' → 31 → line 31"
+      "value" : "postgres",
+      "description" : "Username for database connection oltp"
     },
     {
       "name" : "OLTP_PASSWORD",
       "value" : "",
-      "description" : "JSON File 'oltp.json' → 13 → line 13"
+      "description" : "Password for database connection oltp"
     }
   ]
 }

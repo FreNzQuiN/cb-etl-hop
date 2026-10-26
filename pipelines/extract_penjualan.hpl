@@ -258,10 +258,10 @@
       <source_transform>Unique rows (HashSet)</source_transform>
       <target_transform>Text file output</target_transform>
       <is_enabled>Y</is_enabled>
-      <nr_valuename/>
-      <descriptions_valuename/>
+      <nr_valuename>error_row</nr_valuename>
+      <descriptions_valuename>error_description</descriptions_valuename>
       <fields_valuename/>
-      <codes_valuename/>
+      <codes_valuename>error_code</codes_valuename>
       <max_errors/>
       <max_pct_errors/>
       <min_pct_rows/>
