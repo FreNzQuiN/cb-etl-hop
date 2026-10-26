@@ -1,0 +1,29 @@
+{
+  "variables" : [
+    {
+      "name" : "DW_HOSTNAME",
+      "value" : "localhost",
+      "description" : "Hostname for database connection dw"
+    },
+    {
+      "name" : "DW_PORT",
+      "value" : "5432",
+      "description" : "Port for database connection dw"
+    },
+    {
+      "name" : "DW_DATABASE",
+      "value" : "tokomaju_dw",
+      "description" : "Database name for database connection dw"
+    },
+    {
+      "name" : "DW_USERNAME",
+      "value" : "postgres",
+      "description" : "Username for database connection dw"
+    },
+    {
+      "name" : "DW_PASSWORD",
+      "value" : "",
+      "description" : "Password for database connection dw"
+    }
+  ]
+}

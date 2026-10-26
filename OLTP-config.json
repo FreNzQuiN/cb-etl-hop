@@ -1,0 +1,29 @@
+{
+  "variables" : [
+    {
+      "name" : "OLTP_HOSTNAME",
+      "value" : "",
+      "description" : "JSON File 'oltp.json' → 12 → line 12"
+    },
+    {
+      "name" : "OLTP_PORT",
+      "value" : "",
+      "description" : "JSON File 'oltp.json' → 15 → line 15"
+    },
+    {
+      "name" : "OLTP_DATABASE",
+      "value" : "",
+      "description" : "JSON File 'oltp.json' → 7 → line 7"
+    },
+    {
+      "name" : "OLTP_USERNAME",
+      "value" : "",
+      "description" : "JSON File 'oltp.json' → 31 → line 31"
+    },
+    {
+      "name" : "OLTP_PASSWORD",
+      "value" : "",
+      "description" : "JSON File 'oltp.json' → 13 → line 13"
+    }
+  ]
+}
