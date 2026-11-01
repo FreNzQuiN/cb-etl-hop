@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+  <info>
+    <capture_transform_performance>N</capture_transform_performance>
+    <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
+    <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
+    <pipeline_type>Normal</pipeline_type>
+    <pipeline_status>-1</pipeline_status>
+    <parameters/>
+    <name>New pipeline</name>
+    <name_sync_with_filename>Y</name_sync_with_filename>
+    <created_user>-</created_user>
+    <modified_user>-</modified_user>
+    <created_date>2026/11/01 16:26:17.847</created_date>
+    <modified_date>2026/11/01 16:26:17.847</modified_date>
+  </info>
+  <transform>
+    <type>TableInput</type>
+    <name>Table input (Baca Staging)</name>
+    <sql>SELECT id_transaksi, tanggal, id_produk, id_pelanggan, qty, harga_satuan, metode_bayar
+FROM stg_penjualan</sql>
+    <limit>0</limit>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <connection>dw</connection>
+    <lookup/>
+    <sql_from_file/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>128</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>ReplaceString</type>
+    <name>Replace in string (Bersihkan Harga)</name>
+    <fields>
+      <field>
+        <in_stream_name>harga_satuan</in_stream_name>
+        <out_stream_name/>
+        <use_regex>Y</use_regex>
+        <replace_string>[^0-9]</replace_string>
+        <replace_by_string/>
+        <set_empty_string>Y</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>N</whole_word>
+        <case_sensitive>N</case_sensitive>
+        <is_unicode>N</is_unicode>
+      </field>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>128</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>SelectValues</type>
+    <name>Select values (Ubah Tipe)</name>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>qty</name>
+        <rename>qty</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <storage_type/>
+        <conversion_mask>#</conversion_mask>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <encoding/>
+        <roundingType>half_even</roundingType>
+      </meta>
+      <meta>
+        <name>harga_satuan</name>
+        <rename>harga_satuan</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <storage_type/>
+        <conversion_mask>#</conversion_mask>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <encoding/>
+        <roundingType>half_even</roundingType>
+      </meta>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>128</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>ScriptValueMod</type>
+    <name>JavaScript (Seragamkan Tanggal)</name>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>   var bulanIndo = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"Mei":5,"Jun":6,
+                    "Jul":7,"Agu":8,"Sep":9,"Okt":10,"Nov":11,"Des":12};
+   var s = String(tanggal).trim();
+   var m;
+   var y = null;
+   var bln = null;
+   var hr = null;
+
+   if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)) != null) {
+     // format 2025-09-23
+     y = Number(m[1]); bln = Number(m[2]); hr = Number(m[3]);
+   } else if ((m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/)) != null) {
+     // format 08/12/2025 atau 19-04-2025 (tanggal-bulan-tahun)
+     hr = Number(m[1]); bln = Number(m[2]); y = Number(m[3]);
+   } else if ((m = s.match(/^(\d{1,2}) ([A-Za-z]{3}) (\d{4})$/)) != null) {
+     // format 5 Mar 2025 (singkatan bulan Indonesia)
+     hr = Number(m[1]); bln = bulanIndo[m[2]]; y = Number(m[3]);
+   }
+
+   var waktu_key = null;
+   var tanggal_bersih = null;
+   if (y != null &amp;&amp; bln != null &amp;&amp; hr != null) {
+     waktu_key = y * 10000 + bln * 100 + hr;
+     tanggal_bersih = y + "-" + (bln &lt; 10 ? "0" : "") + bln + "-" + (hr &lt; 10 ? "0" : "") + hr;
+   }</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>waktu_key</name>
+        <rename>waktu_key</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>tanggal_bersih</name>
+        <rename>tanggal_bersih</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <optimizationLevel>9</optimizationLevel>
+    <languageVersion>ES6</languageVersion>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>176</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>FilterRows</type>
+    <name>Filter rows (Cek Qty dan Tanggal)</name>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <operator>-</operator>
+        <leftvalue>qty</leftvalue>
+        <function>&gt;</function>
+        <value>
+          <name>constant</name>
+          <type>Integer</type>
+          <text>0</text>
+          <length>-1</length>
+          <precision>0</precision>
+          <isnull>N</isnull>
+          <mask>####0;-####0</mask>
+        </value>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <operator>-</operator>
+            <leftvalue>qty</leftvalue>
+            <function>&gt;</function>
+            <value>
+              <name>constant</name>
+              <type>Integer</type>
+              <text>0</text>
+              <length>-1</length>
+              <precision>0</precision>
+              <isnull>N</isnull>
+              <mask>####0;-####0</mask>
+            </value>
+            <conditions>
+              <condition>
+                <negated>N</negated>
+                <operator>-</operator>
+                <leftvalue>qty</leftvalue>
+                <function>&gt;</function>
+                <value>
+                  <name>constant</name>
+                  <type>Integer</type>
+                  <text>0</text>
+                  <length>-1</length>
+                  <precision>0</precision>
+                  <isnull>N</isnull>
+                  <mask>####0;-####0</mask>
+                </value>
+                <conditions/>
+              </condition>
+              <condition>
+                <negated>N</negated>
+                <operator>AND</operator>
+                <leftvalue>waktu_key</leftvalue>
+                <function>IS NOT NULL</function>
+                <conditions/>
+              </condition>
+            </conditions>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <send_true_to>Calculator (Hitung Total)</send_true_to>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>288</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>Calculator</type>
+    <name>Calculator (Hitung Total)</name>
+    <calculation>
+      <field_name>total_penjualan</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>qty</field_a>
+      <field_b>harga_satuan</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+      <remove>N</remove>
+    </calculation>
+    <failIfNoFile>Y</failIfNoFile>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>640</xloc>
+      <yloc>384</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>DBLookup</type>
+    <name>Database lookup (Lookup Produk)</name>
+    <connection>dw</connection>
+    <cache>Y</cache>
+    <cache_size>0</cache_size>
+    <cache_load_all>N</cache_load_all>
+    <lookup>
+      <schema>"public"</schema>
+      <table>dim_produk</table>
+      <key>
+        <name>id_produk</name>
+        <name2/>
+        <condition>=</condition>
+        <field>id_produk</field>
+      </key>
+      <value>
+        <name>produk_key</name>
+        <rename/>
+        <default>0</default>
+        <type>Integer</type>
+        <trim_type>none</trim_type>
+      </value>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+    </lookup>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>464</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>DBLookup</type>
+    <name>Database lookup (Lookup Pelanggan)</name>
+    <connection>dw</connection>
+    <cache>Y</cache>
+    <cache_size>0</cache_size>
+    <cache_load_all>N</cache_load_all>
+    <lookup>
+      <schema>"public"</schema>
+      <table>dim_pelanggan</table>
+      <key>
+        <name>id_pelanggan</name>
+        <name2/>
+        <condition>=</condition>
+        <field>id_pelanggan</field>
+      </key>
+      <value>
+        <name>pelanggan_key</name>
+        <rename/>
+        <default>0</default>
+        <type>Integer</type>
+        <trim_type>none</trim_type>
+      </value>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+    </lookup>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>224</xloc>
+      <yloc>448</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>TableOutput</type>
+    <name>Table output (Muat Fakta)</name>
+    <connection>dw</connection>
+    <schema>"public"</schema>
+    <table>fakta_penjualan</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <only_when_have_rows>N</only_when_have_rows>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <specify_fields>Y</specify_fields>
+    <auto_update_table_structure>N</auto_update_table_structure>
+    <always_drop_and_recreate>N</always_drop_and_recreate>
+    <add_columns>N</add_columns>
+    <drop_columns>N</drop_columns>
+    <change_column_types>N</change_column_types>
+    <fields>
+      <field>
+        <stream_name>id_transaksi</stream_name>
+        <column_name>id_transaksi</column_name>
+      </field>
+      <field>
+        <stream_name>qty</stream_name>
+        <column_name>qty</column_name>
+      </field>
+      <field>
+        <stream_name>harga_satuan</stream_name>
+        <column_name>harga_satuan</column_name>
+      </field>
+      <field>
+        <stream_name>metode_bayar</stream_name>
+        <column_name>metode_bayar</column_name>
+      </field>
+      <field>
+        <stream_name>waktu_key</stream_name>
+        <column_name>waktu_key</column_name>
+      </field>
+      <field>
+        <stream_name>total_penjualan</stream_name>
+        <column_name>total_penjualan</column_name>
+      </field>
+      <field>
+        <stream_name>produk_key</stream_name>
+        <column_name>produk_key</column_name>
+      </field>
+      <field>
+        <stream_name>pelanggan_key</stream_name>
+        <column_name>pelanggan_key</column_name>
+      </field>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>128</xloc>
+      <yloc>336</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <order>
+    <hop>
+      <from>Table input (Baca Staging)</from>
+      <to>Replace in string (Bersihkan Harga)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Replace in string (Bersihkan Harga)</from>
+      <to>Select values (Ubah Tipe)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values (Ubah Tipe)</from>
+      <to>JavaScript (Seragamkan Tanggal)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JavaScript (Seragamkan Tanggal)</from>
+      <to>Filter rows (Cek Qty dan Tanggal)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows (Cek Qty dan Tanggal)</from>
+      <to>Calculator (Hitung Total)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculator (Hitung Total)</from>
+      <to>Database lookup (Lookup Produk)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Database lookup (Lookup Produk)</from>
+      <to>Database lookup (Lookup Pelanggan)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Database lookup (Lookup Pelanggan)</from>
+      <to>Table output (Muat Fakta)</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <notepads/>
+  <attributes/>
+  <transform_error_handling/>
+</pipeline>
