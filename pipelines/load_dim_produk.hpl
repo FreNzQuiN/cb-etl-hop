@@ -147,7 +147,7 @@
     <type>TableOutput</type>
     <name>Table output</name>
     <connection>dw</connection>
-    <schema/>
+    <schema>"public"</schema>
     <table>dim_produk</table>
     <commit>1000</commit>
     <truncate>N</truncate>
@@ -171,19 +171,19 @@
     <change_column_types>N</change_column_types>
     <fields>
       <field>
-        <stream_name/>
+        <stream_name>id_produk</stream_name>
         <column_name>id_produk</column_name>
       </field>
       <field>
-        <stream_name/>
+        <stream_name>nama_produk</stream_name>
         <column_name>nama_produk</column_name>
       </field>
       <field>
-        <stream_name/>
+        <stream_name>kategori</stream_name>
         <column_name>kategori</column_name>
       </field>
       <field>
-        <stream_name/>
+        <stream_name>merek</stream_name>
         <column_name>merek</column_name>
       </field>
     </fields>

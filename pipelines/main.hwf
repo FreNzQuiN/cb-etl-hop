@@ -103,8 +103,8 @@
       <name>extract_pelanggan.hpl</name>
       <type>PIPELINE</type>
       <attributes/>
-      <xloc>576</xloc>
-      <yloc>48</yloc>
+      <xloc>624</xloc>
+      <yloc>64</yloc>
       <parallel>N</parallel>
       <attributes_hac/>
     </action>
@@ -113,8 +113,133 @@
       <description/>
       <type>SUCCESS</type>
       <attributes/>
+      <xloc>320</xloc>
+      <yloc>576</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <sql/>
+      <connection>dw</connection>
+      <useVariableSubstitution>N</useVariableSubstitution>
+      <sqlfromfile>Y</sqlfromfile>
+      <sqlfilename>${PROJECT_HOME}/sql/02_reset_dw.sql</sqlfilename>
+      <sqlfilename_encoding/>
+      <sendOneStatement>N</sendOneStatement>
+      <name>Reset DW</name>
+      <description/>
+      <type>SQL</type>
+      <attributes/>
       <xloc>768</xloc>
-      <yloc>64</yloc>
+      <yloc>128</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <filename>${PROJECT_HOME}/pipelines/load_dim_produk.hpl</filename>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <create_parent_folder>N</create_parent_folder>
+      <set_logfile>N</set_logfile>
+      <set_append_logfile>N</set_append_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <wait_until_finished>Y</wait_until_finished>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <run_configuration>local</run_configuration>
+      <name>load_dim_produk.hpl</name>
+      <type>PIPELINE</type>
+      <attributes/>
+      <xloc>752</xloc>
+      <yloc>240</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <filename>${PROJECT_HOME}/pipelines/load_dim_pelanggan.hpl</filename>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <create_parent_folder>N</create_parent_folder>
+      <set_logfile>N</set_logfile>
+      <set_append_logfile>N</set_append_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <wait_until_finished>Y</wait_until_finished>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <run_configuration>local</run_configuration>
+      <name>load_dim_pelanggan.hpl</name>
+      <type>PIPELINE</type>
+      <attributes/>
+      <xloc>752</xloc>
+      <yloc>368</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <filename>${PROJECT_HOME}/pipelines/load_dim_waktu.hpl</filename>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <create_parent_folder>N</create_parent_folder>
+      <set_logfile>N</set_logfile>
+      <set_append_logfile>N</set_append_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <wait_until_finished>Y</wait_until_finished>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <run_configuration>local</run_configuration>
+      <name>load_dim_waktu.hpl</name>
+      <type>PIPELINE</type>
+      <attributes/>
+      <xloc>704</xloc>
+      <yloc>512</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <filename>${PROJECT_HOME}/pipelines/load_fakta_penjualan.hpl</filename>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <create_parent_folder>N</create_parent_folder>
+      <set_logfile>N</set_logfile>
+      <set_append_logfile>N</set_append_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <wait_until_finished>Y</wait_until_finished>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <run_configuration>local</run_configuration>
+      <name>load_fakta_penjualan.hpl</name>
+      <type>PIPELINE</type>
+      <attributes/>
+      <xloc>496</xloc>
+      <yloc>560</yloc>
       <parallel>N</parallel>
       <attributes_hac/>
     </action>
@@ -143,6 +268,41 @@
     </hop>
     <hop>
       <from>extract_pelanggan.hpl</from>
+      <to>Reset DW</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Reset DW</from>
+      <to>load_dim_produk.hpl</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>load_dim_produk.hpl</from>
+      <to>load_dim_pelanggan.hpl</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>load_dim_pelanggan.hpl</from>
+      <to>load_dim_waktu.hpl</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>load_dim_waktu.hpl</from>
+      <to>load_fakta_penjualan.hpl</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>load_fakta_penjualan.hpl</from>
       <to>Success</to>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
