@@ -41,7 +41,7 @@
   </transform>
   <transform>
     <type>UniqueRowsByHashSet</type>
-    <name>Unique rows (HashSet)</name>
+    <name>Buang Duplikat Pelanggan</name>
     <store_values>Y</store_values>
     <fields>
       <field>
@@ -104,11 +104,11 @@
   <order>
     <hop>
       <from>Table input</from>
-      <to>Unique rows (HashSet)</to>
+      <to>Buang Duplikat Pelanggan</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet)</from>
+      <from>Buang Duplikat Pelanggan</from>
       <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
