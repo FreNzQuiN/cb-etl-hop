@@ -19,7 +19,7 @@
   </info>
   <transform>
     <type>ExcelInput</type>
-    <name>Microsoft Excel input</name>
+    <name>Microsoft Excel input (Baca Produk Excel)</name>
     <file>
       <name>${HOP_DATASETS_FOLDER}/produk.xlsx</name>
       <filemask/>
@@ -133,7 +133,7 @@
   </transform>
   <transform>
     <type>UniqueRowsByHashSet</type>
-    <name>Unique rows (HashSet)</name>
+    <name>Unique rows (HashSet) (Hapus Duplikat Produk)</name>
     <store_values>Y</store_values>
     <fields>
       <field>
@@ -145,8 +145,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>192</yloc>
+      <xloc>480</xloc>
+      <yloc>144</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -156,7 +156,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat stg_produk)</name>
     <connection>dw</connection>
     <schema/>
     <table>stg_produk</table>
@@ -184,7 +184,7 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>576</xloc>
+      <xloc>800</xloc>
       <yloc>176</yloc>
     </GUI>
     <partitioning>
@@ -195,13 +195,13 @@
   </transform>
   <order>
     <hop>
-      <from>Microsoft Excel input</from>
-      <to>Unique rows (HashSet)</to>
+      <from>Microsoft Excel input (Baca Produk Excel)</from>
+      <to>Unique rows (HashSet) (Hapus Duplikat Produk)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet)</from>
-      <to>Table output</to>
+      <from>Unique rows (HashSet) (Hapus Duplikat Produk)</from>
+      <to>Table output (Muat stg_produk)</to>
       <enabled>Y</enabled>
     </hop>
   </order>

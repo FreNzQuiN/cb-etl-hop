@@ -16,7 +16,7 @@
   </info>
   <transform>
     <type>TableInput</type>
-    <name>Table input</name>
+    <name>Table input (Baca stg_pelanggan)</name>
     <sql>SELECT id_pelanggan, nama, jenis_kelamin, kota, provinsi, telepon FROM stg_pelanggan</sql>
     <limit>0</limit>
     <execute_each_row>N</execute_each_row>
@@ -27,8 +27,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>176</xloc>
-      <yloc>176</yloc>
+      <xloc>272</xloc>
+      <yloc>368</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -38,7 +38,7 @@
   </transform>
   <transform>
     <type>StringOperations</type>
-    <name>String operations</name>
+    <name>String operations (Rapikan Teks Pelanggan)</name>
     <fields>
       <field>
         <in_stream_name>kota</in_stream_name>
@@ -83,8 +83,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>304</xloc>
-      <yloc>176</yloc>
+      <xloc>288</xloc>
+      <yloc>256</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -140,8 +140,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>448</xloc>
-      <yloc>176</yloc>
+      <xloc>464</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -193,7 +193,7 @@
   </transform>
   <transform>
     <type>IfNull</type>
-    <name>If null</name>
+    <name>If null (Isi Kota Kosong)</name>
     <fields>
       <field>
         <name>kota</name>
@@ -212,7 +212,7 @@
     <copies>1</copies>
     <GUI>
       <xloc>816</xloc>
-      <yloc>176</yloc>
+      <yloc>208</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -222,7 +222,7 @@
   </transform>
   <transform>
     <type>ReplaceString</type>
-    <name>Replace in string</name>
+    <name>Replace in string (Hapus Simbol Telepon)</name>
     <fields>
       <field>
         <in_stream_name>telepon</in_stream_name>
@@ -241,7 +241,7 @@
     <copies>1</copies>
     <GUI>
       <xloc>832</xloc>
-      <yloc>304</yloc>
+      <yloc>368</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -251,7 +251,7 @@
   </transform>
   <transform>
     <type>ReplaceString</type>
-    <name>Replace in string 2</name>
+    <name>Replace in string (Ubah 62 ke 0)</name>
     <fields>
       <field>
         <in_stream_name>telepon</in_stream_name>
@@ -269,8 +269,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>656</xloc>
-      <yloc>304</yloc>
+      <xloc>704</xloc>
+      <yloc>448</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -280,7 +280,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat dim_pelanggan)</name>
     <connection>dw</connection>
     <schema>"public"</schema>
     <table>dim_pelanggan</table>
@@ -333,8 +333,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>304</yloc>
+      <xloc>544</xloc>
+      <yloc>592</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -344,12 +344,12 @@
   </transform>
   <order>
     <hop>
-      <from>Table input</from>
-      <to>String operations</to>
+      <from>Table input (Baca stg_pelanggan)</from>
+      <to>String operations (Rapikan Teks Pelanggan)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>String operations</from>
+      <from>String operations (Rapikan Teks Pelanggan)</from>
       <to>Value mapper(Kota)</to>
       <enabled>Y</enabled>
     </hop>
@@ -360,22 +360,22 @@
     </hop>
     <hop>
       <from>Value mapper (jenis_kelamin)</from>
-      <to>If null</to>
+      <to>If null (Isi Kota Kosong)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>If null</from>
-      <to>Replace in string</to>
+      <from>If null (Isi Kota Kosong)</from>
+      <to>Replace in string (Hapus Simbol Telepon)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Replace in string</from>
-      <to>Replace in string 2</to>
+      <from>Replace in string (Hapus Simbol Telepon)</from>
+      <to>Replace in string (Ubah 62 ke 0)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Replace in string 2</from>
-      <to>Table output</to>
+      <from>Replace in string (Ubah 62 ke 0)</from>
+      <to>Table output (Muat dim_pelanggan)</to>
       <enabled>Y</enabled>
     </hop>
   </order>

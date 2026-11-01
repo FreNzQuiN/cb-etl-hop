@@ -19,7 +19,7 @@
   </info>
   <transform>
     <type>CSVInput</type>
-    <name>CSV file input</name>
+    <name>CSV file input (Baca Penjualan CSV)</name>
     <filename>${HOP_DATASETS_FOLDER}/penjualan.csv</filename>
     <include_filename>N</include_filename>
     <rownum_field/>
@@ -127,7 +127,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat stg_penjualan)</name>
     <connection>dw</connection>
     <schema/>
     <table>stg_penjualan</table>
@@ -155,8 +155,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>10384</xloc>
-      <yloc>7216</yloc>
+      <xloc>10432</xloc>
+      <yloc>7232</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -166,7 +166,7 @@
   </transform>
   <transform>
     <type>UniqueRowsByHashSet</type>
-    <name>Unique rows (HashSet)</name>
+    <name>Unique rows (HashSet) (Hapus Duplikat Transaksi)</name>
     <store_values>Y</store_values>
     <fields>
       <field>
@@ -178,7 +178,7 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>10240</xloc>
+      <xloc>10432</xloc>
       <yloc>7072</yloc>
     </GUI>
     <partitioning>
@@ -225,7 +225,7 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>10416</xloc>
+      <xloc>10720</xloc>
       <yloc>7072</yloc>
     </GUI>
     <partitioning>
@@ -236,18 +236,18 @@
   </transform>
   <order>
     <hop>
-      <from>CSV file input</from>
-      <to>Unique rows (HashSet)</to>
+      <from>CSV file input (Baca Penjualan CSV)</from>
+      <to>Unique rows (HashSet) (Hapus Duplikat Transaksi)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet)</from>
+      <from>Unique rows (HashSet) (Hapus Duplikat Transaksi)</from>
       <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unique rows (HashSet)</from>
-      <to>Table output</to>
+      <from>Unique rows (HashSet) (Hapus Duplikat Transaksi)</from>
+      <to>Table output (Muat stg_penjualan)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -255,7 +255,7 @@
   <attributes/>
   <transform_error_handling>
     <error>
-      <source_transform>Unique rows (HashSet)</source_transform>
+      <source_transform>Unique rows (HashSet) (Hapus Duplikat Transaksi)</source_transform>
       <target_transform>Text file output</target_transform>
       <is_enabled>Y</is_enabled>
       <nr_valuename>error_row</nr_valuename>

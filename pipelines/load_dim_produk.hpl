@@ -19,7 +19,7 @@
   </info>
   <transform>
     <type>TableInput</type>
-    <name>Table input</name>
+    <name>Table input (Baca stg_produk)</name>
     <sql>SELECT id_produk, nama_produk, kategori, merek FROM stg_produk</sql>
     <limit>0</limit>
     <execute_each_row>N</execute_each_row>
@@ -41,7 +41,7 @@
   </transform>
   <transform>
     <type>StringOperations</type>
-    <name>String operations</name>
+    <name>String operations (Rapikan Teks Produk)</name>
     <fields>
       <field>
         <in_stream_name>kategori</in_stream_name>
@@ -73,8 +73,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>176</yloc>
+      <xloc>416</xloc>
+      <yloc>240</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -84,7 +84,7 @@
   </transform>
   <transform>
     <type>ValueMapper</type>
-    <name>Value mapper</name>
+    <name>Value mapper (Seragamkan Kategori)</name>
     <field_to_use>kategori</field_to_use>
     <target_field/>
     <non_match_default/>
@@ -105,8 +105,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>528</xloc>
-      <yloc>176</yloc>
+      <xloc>592</xloc>
+      <yloc>304</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -116,7 +116,7 @@
   </transform>
   <transform>
     <type>IfNull</type>
-    <name>If null</name>
+    <name>If null (Isi Kategori Kosong)</name>
     <fields>
       <field>
         <name>kategori</name>
@@ -134,8 +134,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>176</yloc>
+      <xloc>784</xloc>
+      <yloc>384</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -145,7 +145,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat dim_produk)</name>
     <connection>dw</connection>
     <schema>"public"</schema>
     <table>dim_produk</table>
@@ -190,8 +190,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>768</xloc>
-      <yloc>176</yloc>
+      <xloc>960</xloc>
+      <yloc>480</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -201,23 +201,23 @@
   </transform>
   <order>
     <hop>
-      <from>Table input</from>
-      <to>String operations</to>
+      <from>Table input (Baca stg_produk)</from>
+      <to>String operations (Rapikan Teks Produk)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>String operations</from>
-      <to>Value mapper</to>
+      <from>String operations (Rapikan Teks Produk)</from>
+      <to>Value mapper (Seragamkan Kategori)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Value mapper</from>
-      <to>If null</to>
+      <from>Value mapper (Seragamkan Kategori)</from>
+      <to>If null (Isi Kategori Kosong)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>If null</from>
-      <to>Table output</to>
+      <from>If null (Isi Kategori Kosong)</from>
+      <to>Table output (Muat dim_produk)</to>
       <enabled>Y</enabled>
     </hop>
   </order>

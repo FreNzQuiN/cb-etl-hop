@@ -19,7 +19,7 @@
   </info>
   <transform>
     <type>TableInput</type>
-    <name>Table input</name>
+    <name>Table input (Baca Pelanggan OLTP)</name>
     <sql>SELECT * FROM pelanggan</sql>
     <limit>0</limit>
     <execute_each_row>N</execute_each_row>
@@ -41,7 +41,7 @@
   </transform>
   <transform>
     <type>UniqueRowsByHashSet</type>
-    <name>Buang Duplikat Pelanggan</name>
+    <name>Hapus Duplikat Pelanggan</name>
     <store_values>Y</store_values>
     <fields>
       <field>
@@ -53,8 +53,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>256</yloc>
+      <xloc>432</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -64,7 +64,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat stg_pelanggan)</name>
     <connection>dw</connection>
     <schema/>
     <table>stg_pelanggan</table>
@@ -92,8 +92,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>272</yloc>
+      <xloc>656</xloc>
+      <yloc>176</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -103,13 +103,13 @@
   </transform>
   <order>
     <hop>
-      <from>Table input</from>
-      <to>Buang Duplikat Pelanggan</to>
+      <from>Table input (Baca Pelanggan OLTP)</from>
+      <to>Hapus Duplikat Pelanggan</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Buang Duplikat Pelanggan</from>
-      <to>Table output</to>
+      <from>Hapus Duplikat Pelanggan</from>
+      <to>Table output (Muat stg_pelanggan)</to>
       <enabled>Y</enabled>
     </hop>
   </order>

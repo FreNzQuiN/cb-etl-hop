@@ -16,7 +16,7 @@
   </info>
   <transform>
     <type>RowGenerator</type>
-    <name>Generate rows</name>
+    <name>Generate rows (Buat 365 Hari)</name>
     <never_ending>N</never_ending>
     <interval_in_ms>5000</interval_in_ms>
     <row_time_field>now</row_time_field>
@@ -26,8 +26,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>128</xloc>
-      <yloc>192</yloc>
+      <xloc>112</xloc>
+      <yloc>256</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -37,7 +37,7 @@
   </transform>
   <transform>
     <type>Sequence</type>
-    <name>Add sequence</name>
+    <name>Add sequence (Nomor Urut Hari)</name>
     <valuename>hari_ke</valuename>
     <use_database>N</use_database>
     <connection/>
@@ -62,7 +62,7 @@
   </transform>
   <transform>
     <type>ScriptValueMod</type>
-    <name>JavaScript</name>
+    <name>JavaScript (Hitung Atribut Kalender)</name>
     <jsScripts>
       <jsScript>
         <jsScript_type>0</jsScript_type>
@@ -143,8 +143,8 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>192</yloc>
+      <xloc>432</xloc>
+      <yloc>304</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -154,7 +154,7 @@
   </transform>
   <transform>
     <type>TableOutput</type>
-    <name>Table output</name>
+    <name>Table output (Muat dim_waktu)</name>
     <connection>dw</connection>
     <schema>"public"</schema>
     <table>dim_waktu</table>
@@ -222,18 +222,18 @@
   </transform>
   <order>
     <hop>
-      <from>Generate rows</from>
-      <to>Add sequence</to>
+      <from>Generate rows (Buat 365 Hari)</from>
+      <to>Add sequence (Nomor Urut Hari)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Add sequence</from>
-      <to>JavaScript</to>
+      <from>Add sequence (Nomor Urut Hari)</from>
+      <to>JavaScript (Hitung Atribut Kalender)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>JavaScript</from>
-      <to>Table output</to>
+      <from>JavaScript (Hitung Atribut Kalender)</from>
+      <to>Table output (Muat dim_waktu)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
