@@ -17,7 +17,7 @@
   <transform>
     <type>TableInput</type>
     <name>Table input (Baca stg_pelanggan)</name>
-    <sql>SELECT id_pelanggan, nama, jenis_kelamin, kota, provinsi, telepon FROM stg_pelanggan</sql>
+    <sql>SELECT id_pelanggan, nama, jenis_kelamin, kota, provinsi FROM stg_pelanggan</sql>
     <limit>0</limit>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
@@ -221,64 +221,6 @@
     <attributes/>
   </transform>
   <transform>
-    <type>ReplaceString</type>
-    <name>Replace in string (Hapus Simbol Telepon)</name>
-    <fields>
-      <field>
-        <in_stream_name>telepon</in_stream_name>
-        <out_stream_name/>
-        <use_regex>Y</use_regex>
-        <replace_string>[^0-9]</replace_string>
-        <replace_by_string/>
-        <set_empty_string>Y</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>N</whole_word>
-        <case_sensitive>N</case_sensitive>
-        <is_unicode>N</is_unicode>
-      </field>
-    </fields>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-    <GUI>
-      <xloc>832</xloc>
-      <yloc>368</yloc>
-    </GUI>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-  </transform>
-  <transform>
-    <type>ReplaceString</type>
-    <name>Replace in string (Ubah 62 ke 0)</name>
-    <fields>
-      <field>
-        <in_stream_name>telepon</in_stream_name>
-        <out_stream_name/>
-        <use_regex>Y</use_regex>
-        <replace_string>^62</replace_string>
-        <replace_by_string>0</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>N</whole_word>
-        <case_sensitive>N</case_sensitive>
-        <is_unicode>N</is_unicode>
-      </field>
-    </fields>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>448</yloc>
-    </GUI>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-  </transform>
-  <transform>
     <type>TableOutput</type>
     <name>Table output (Muat dim_pelanggan)</name>
     <connection>dw</connection>
@@ -325,16 +267,12 @@
         <stream_name>provinsi</stream_name>
         <column_name>provinsi</column_name>
       </field>
-      <field>
-        <stream_name>telepon</stream_name>
-        <column_name>telepon</column_name>
-      </field>
     </fields>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>592</yloc>
+      <xloc>912</xloc>
+      <yloc>336</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -365,16 +303,6 @@
     </hop>
     <hop>
       <from>If null (Isi Kota Kosong)</from>
-      <to>Replace in string (Hapus Simbol Telepon)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Replace in string (Hapus Simbol Telepon)</from>
-      <to>Replace in string (Ubah 62 ke 0)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Replace in string (Ubah 62 ke 0)</from>
       <to>Table output (Muat dim_pelanggan)</to>
       <enabled>Y</enabled>
     </hop>

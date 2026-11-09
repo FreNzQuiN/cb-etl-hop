@@ -113,8 +113,8 @@
       <description/>
       <type>SUCCESS</type>
       <attributes/>
-      <xloc>320</xloc>
-      <yloc>576</yloc>
+      <xloc>176</xloc>
+      <yloc>544</yloc>
       <parallel>N</parallel>
       <attributes_hac/>
     </action>
@@ -238,8 +238,35 @@
       <name>load_fakta_penjualan.hpl</name>
       <type>PIPELINE</type>
       <attributes/>
-      <xloc>496</xloc>
+      <xloc>368</xloc>
       <yloc>560</yloc>
+      <parallel>N</parallel>
+      <attributes_hac/>
+    </action>
+    <action>
+      <filename>${PROJECT_HOME}/pipelines/load_dim_metode_bayar.hpl</filename>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <create_parent_folder>N</create_parent_folder>
+      <set_logfile>N</set_logfile>
+      <set_append_logfile>N</set_append_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <wait_until_finished>Y</wait_until_finished>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <run_configuration>local</run_configuration>
+      <name>load_dim_metode_bayar.hpl</name>
+      <type>PIPELINE</type>
+      <attributes/>
+      <xloc>560</xloc>
+      <yloc>544</yloc>
       <parallel>N</parallel>
       <attributes_hac/>
     </action>
@@ -295,15 +322,22 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>load_dim_waktu.hpl</from>
-      <to>load_fakta_penjualan.hpl</to>
+      <from>load_fakta_penjualan.hpl</from>
+      <to>Success</to>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>load_fakta_penjualan.hpl</from>
-      <to>Success</to>
+      <from>load_dim_waktu.hpl</from>
+      <to>load_dim_metode_bayar.hpl</to>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>load_dim_metode_bayar.hpl</from>
+      <to>load_fakta_penjualan.hpl</to>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
       <enabled>Y</enabled>

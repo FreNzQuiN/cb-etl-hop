@@ -402,16 +402,8 @@ FROM stg_penjualan</sql>
         <column_name>id_transaksi</column_name>
       </field>
       <field>
-        <stream_name>qty</stream_name>
-        <column_name>qty</column_name>
-      </field>
-      <field>
         <stream_name>harga_satuan</stream_name>
         <column_name>harga_satuan</column_name>
-      </field>
-      <field>
-        <stream_name>metode_bayar</stream_name>
-        <column_name>metode_bayar</column_name>
       </field>
       <field>
         <stream_name>waktu_key</stream_name>
@@ -429,12 +421,59 @@ FROM stg_penjualan</sql>
         <stream_name>pelanggan_key</stream_name>
         <column_name>pelanggan_key</column_name>
       </field>
+      <field>
+        <stream_name>metode_bayar_key</stream_name>
+        <column_name>metode_bayar_key</column_name>
+      </field>
+      <field>
+        <stream_name>qty</stream_name>
+        <column_name>qty</column_name>
+      </field>
     </fields>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>128</xloc>
-      <yloc>336</yloc>
+      <xloc>80</xloc>
+      <yloc>256</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>DBLookup</type>
+    <name>Database lookup(Lookup Metode Bayar)</name>
+    <connection>dw</connection>
+    <cache>Y</cache>
+    <cache_size>0</cache_size>
+    <cache_load_all>N</cache_load_all>
+    <lookup>
+      <schema>"public"</schema>
+      <table>dim_metode_bayar</table>
+      <key>
+        <name>metode_bayar</name>
+        <name2/>
+        <condition>=</condition>
+        <field>metode_bayar</field>
+      </key>
+      <value>
+        <name>metode_bayar_key</name>
+        <rename/>
+        <default>0</default>
+        <type>Integer</type>
+        <trim_type>none</trim_type>
+      </value>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+    </lookup>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>160</xloc>
+      <yloc>352</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
@@ -480,6 +519,11 @@ FROM stg_penjualan</sql>
     </hop>
     <hop>
       <from>Database lookup (Lookup Pelanggan)</from>
+      <to>Database lookup(Lookup Metode Bayar)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Database lookup(Lookup Metode Bayar)</from>
       <to>Table output (Muat Fakta)</to>
       <enabled>Y</enabled>
     </hop>
